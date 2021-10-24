@@ -19,12 +19,9 @@ namespace TheShop
         public async Task<Article> OrderArticle(int id, int maxExpectedPrice)
         {
             #region ordering article
-
-            //var suppliers = await Helper.LoadSuppliers();
-            //var test = await DatabaseDriver.GetAllSuppliersAsync();
             var suppliers = await _databaseDriver.GetAllSuppliersAsync();
 
-            List<Article> articles = new List<Article>();
+            var articles = new List<Article>();
 
             foreach (var supplier in suppliers)
             {

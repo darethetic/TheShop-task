@@ -56,7 +56,6 @@
     <Compile Include="Core\ILogger.cs" />
     <Compile Include="Core\IShopService.cs" />
     <Compile Include="Core\ISupplier.cs" />
-    <Compile Include="Helper.cs" />
     <Compile Include="Service.cs" />
     <Compile Include="Infrastructure\Logger.cs" />
     <Compile Include="Program.cs" />

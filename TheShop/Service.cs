@@ -28,7 +28,7 @@ namespace TheShop
             {
                 if (response.IsSuccessStatusCode)
                 {
-                    List<Supplier> suppliers = await response.Content.ReadAsAsync<List<Supplier>>();
+                    var suppliers = await response.Content.ReadAsAsync<List<Supplier>>();
                     return suppliers;
                 }
                 else
