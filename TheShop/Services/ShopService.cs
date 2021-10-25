@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TheShop.Dtos;
+using TheShop.Services.Interfaces;
 
 namespace TheShop
 {
@@ -9,29 +11,33 @@ namespace TheShop
     {
         private IDatabaseDriver _databaseDriver;
         private ILogger _logger;
+        private ISupplierService _supplierService;
 
-        public ShopService(ILogger logger, IDatabaseDriver databaseDriver)
+        public ShopService(ILogger logger, IDatabaseDriver databaseDriver, ISupplierService supplierService)
         {
             _databaseDriver = databaseDriver;
             _logger = logger;
+            _supplierService = supplierService;
         }
 
-        public async Task<Article> OrderArticle(int id, int maxExpectedPrice)
+        public async Task<ArticleDto> OrderArticle(int id, int maxExpectedPrice)
         {
             #region ordering article
-            var suppliers = await _databaseDriver.GetAllSuppliersAsync();
+            var suppliers = await _supplierService.GetAllSuppliersAsync();
 
-            var articles = new List<Article>();
+
+
+            var articles = new List<ArticleDto>();
 
             foreach (var supplier in suppliers)
             {
                 foreach (var articleOnStock in supplier.Articles)
                 {
-                    if (!articleOnStock.IsSold && articleOnStock.ID == id && articleOnStock.ArticlePrice < maxExpectedPrice)
+                    if (articleOnStock.Id == id && articleOnStock.Price < maxExpectedPrice)
                         articles.Add(articleOnStock);
                 }
             }
-            var article = articles.OrderBy(x => x.ArticlePrice).FirstOrDefault();
+            var article = articles.OrderBy(x => x.Price).FirstOrDefault();
 
             return article;
            
@@ -55,10 +61,9 @@ namespace TheShop
                 _databaseDriver.Save(article);
                 _logger.Info("Article with id=" + article.ID + " is sold.");
             }
-            catch (ArgumentNullException ex)
+            catch (Exception ex)
             {
                 _logger.Error("Could not save article with id=" + article.ID + "; 'Reason:" + ex.Message);
-                throw new Exception("Could not save article with id");
             }
         }
 

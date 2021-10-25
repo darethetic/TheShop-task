@@ -1,9 +1,12 @@
 ﻿using System;
+using TheShop.Services;
+using TheShop.Services.Interfaces;
+
 namespace TheShop
 {
     public static class Factory
     {
-        public static IArticle CreateArticle()
+        public static Article CreateArticle()
         {
             return new Article();
         }
@@ -13,9 +16,9 @@ namespace TheShop
             return new Logger();
         }
 
-        public static ISupplier CreateSupplier()
+        public static Supplier CreateSupplier()
         {
-            return new Supplier(CreateArticle());
+            return new Supplier();
         }
 
         public static IDatabaseDriver CreateDatabaseDriver()
@@ -23,9 +26,14 @@ namespace TheShop
             return new DatabaseDriver();
         }
 
+        public static ISupplierService CreateSupplierService()
+        {
+            return new SuppllierService();
+        }
+
         public static IShopService CreateShopService()
         {
-            return new ShopService(CreateLogger(), CreateDatabaseDriver());
+            return new ShopService(CreateLogger(), CreateDatabaseDriver(), CreateSupplierService());
         }
     }
 }

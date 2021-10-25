@@ -6,7 +6,7 @@ namespace TheShop
 	{
 		private static void Main(string[] args)
 		{
-			Service.InitializeClient();
+			ApiService.InitializeClient();
             var shopService = Factory.CreateShopService();
 
 			StartProgram(shopService);
@@ -37,7 +37,6 @@ namespace TheShop
 		{
 			try
 			{
-				//order and sell
 				var article = await shopService.OrderArticle(1, 200);
 				shopService.SellArticle(article, 10);
 			}
@@ -51,7 +50,6 @@ namespace TheShop
         {
 			try
 			{
-				//print article on console
 				var article = shopService.GetById(1);
 				Console.WriteLine("Found article with ID: " + article.ID);
 			}

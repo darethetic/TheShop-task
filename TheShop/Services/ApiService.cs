@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
+using TheShop.Dtos;
 
 namespace TheShop
 {
-    class Service
+    class ApiService
     {
         public static HttpClient ApiClient { get; set; }
 
@@ -20,7 +19,7 @@ namespace TheShop
             ApiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public static async Task<List<Supplier>> LoadSuppliers()
+        public static async Task<List<SupplierDto>> LoadSuppliers()
         {
             string Url = "https://suppliers.free.beeceptor.com/";
 
@@ -28,7 +27,7 @@ namespace TheShop
             {
                 if (response.IsSuccessStatusCode)
                 {
-                    var suppliers = await response.Content.ReadAsAsync<List<Supplier>>();
+                    var suppliers = await response.Content.ReadAsAsync<List<SupplierDto>>();
                     return suppliers;
                 }
                 else
