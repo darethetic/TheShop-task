@@ -5,7 +5,7 @@ namespace TheShop
 {
     public class DatabaseDriver : IDatabaseDriver
     {
-        public List<Article> _articles = new List<Article>();
+        private List<Article> _articles = new List<Article>();
 
         public Article GetById(int id)
         {

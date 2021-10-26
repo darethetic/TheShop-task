@@ -1,5 +1,4 @@
-﻿using System;
-using TheShop.Services;
+﻿using TheShop.Services;
 using TheShop.Services.Interfaces;
 
 namespace TheShop
