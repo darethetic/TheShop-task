@@ -17,9 +17,9 @@ namespace TheShop.Mappers
             {
                 var article = new Article()
                 {
-                    ID = item.Id,
+                    Id = item.Id,
                     NameOfArticle = item.Name,
-                    ArticlePrice = item.Price
+                    Price = item.Price
                 };
 
                 supplier.Articles.Add(article, item.InInventory);

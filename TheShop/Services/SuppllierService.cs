@@ -4,18 +4,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheShop.Dtos;
+using TheShop.Mappers;
 using TheShop.Services.Interfaces;
 
 namespace TheShop.Services
 {
-    public class SuppllierService: ISupplierService
+    public class SuppllierService : ISupplierService
     {
-        public List<SupplierDto> _suppliers = new List<SupplierDto>();
-        public async Task<List<SupplierDto>> GetAllSuppliersAsync() => _suppliers = await ApiService.LoadSuppliers();
+        public List<Supplier> _suppliers = new List<Supplier>();
+        public async Task<List<Supplier>> GetAllSuppliersAsync()
+        {
+            var suppliers = await ApiService.LoadSuppliers();
+
+            foreach (var item in suppliers)
+            {
+                _suppliers.Add(item.ToModel());
+            }
+
+            return _suppliers;
+        }
 
         public ArticleDto OrderArticlesFromSupplier(List<SupplierDto> suppliers, int id, int maxExpectedPrice)
         {
-            var articles = new List<ArticleDto>();
+            var articles = new List<ArticleDto>();            
             foreach (var supplier in suppliers)
             {
                 foreach (var articleOnStock in supplier.Articles)
@@ -24,7 +35,8 @@ namespace TheShop.Services
                         articles.Add(articleOnStock);
                 }
             }
-            var article = articles.OrderBy(x => x.Price).FirstOrDefault();
+
+            var article = articles.Any() ? articles.OrderBy(x => x.Price).FirstOrDefault() : null;
 
             return article;
         }

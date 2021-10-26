@@ -9,7 +9,7 @@ namespace TheShop
 
         public Article GetById(int id)
         {
-            return _articles.Single(a => a.ID == id);
+            return _articles.Single(a => a.Id == id);
         }
 
         public void Save(Article article)

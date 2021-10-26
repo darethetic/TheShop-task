@@ -20,27 +20,24 @@ namespace TheShop
             _supplierService = supplierService;
         }
 
-        public async Task<ArticleDto> OrderArticle(int id, int maxExpectedPrice)
+        public async Task<Article> OrderArticle(int id, int maxExpectedPrice)
         {
             #region ordering article
             var suppliers = await _supplierService.GetAllSuppliersAsync();
-
-
-
-            var articles = new List<ArticleDto>();
+            var articles = new List<Article>();
 
             foreach (var supplier in suppliers)
             {
                 foreach (var articleOnStock in supplier.Articles)
                 {
-                    if (articleOnStock.Id == id && articleOnStock.Price < maxExpectedPrice)
-                        articles.Add(articleOnStock);
+                    if (articleOnStock.Key.Id == id && articleOnStock.Key.Price < maxExpectedPrice)
+                        articles.Add(articleOnStock.Key);
                 }
             }
             var article = articles.OrderBy(x => x.Price).FirstOrDefault();
 
             return article;
-           
+
             #endregion
         }
 
@@ -50,7 +47,7 @@ namespace TheShop
             {
                 throw new Exception("Could not order article");
             }
-            _logger.Debug("Trying to sell article with id=" + article.ID);
+            _logger.Debug("Trying to sell article with id=" + article.Id);
 
             article.IsSold = true;
             article.SoldDate = DateTime.Now;
@@ -59,11 +56,11 @@ namespace TheShop
             try
             {
                 _databaseDriver.Save(article);
-                _logger.Info("Article with id=" + article.ID + " is sold.");
+                _logger.Info("Article with id=" + article.Id + " is sold.");
             }
             catch (Exception ex)
             {
-                _logger.Error("Could not save article with id=" + article.ID + "; 'Reason:" + ex.Message);
+                _logger.Error("Could not save article with id=" + article.Id + "; 'Reason:" + ex.Message);
             }
         }
 
