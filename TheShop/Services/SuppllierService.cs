@@ -14,7 +14,7 @@ namespace TheShop.Services
         public List<Supplier> _suppliers = new List<Supplier>();
         public async Task<List<Supplier>> GetAllSuppliersAsync()
         {
-            var suppliers = await ApiService.LoadSuppliers();
+            var suppliers = await ApiService.LoadSuppliers();            
 
             foreach (var item in suppliers)
             {

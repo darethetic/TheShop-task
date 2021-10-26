@@ -13,15 +13,14 @@ namespace TheShop
 
         public static void InitializeClient()
         {
-            ApiClient = new HttpClient();
-            //ApiClient.BaseAddress = new Uri("https://suppliers.free.beeceptor.com/");
+            ApiClient = new HttpClient();            
             ApiClient.DefaultRequestHeaders.Accept.Clear();
             ApiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
         public static async Task<List<SupplierDto>> LoadSuppliers()
         {
-            string Url = "https://suppliers.free.beeceptor.com/";
+            string Url = "https://suppliers-task.free.beeceptor.com/";
 
             using (HttpResponseMessage response = await ApiClient.GetAsync(Url))
             {
