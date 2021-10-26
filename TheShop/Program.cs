@@ -21,7 +21,7 @@ namespace TheShop
 		{
 			try
 			{
-                var article = await shopService.OrderArticle(1, 500);
+                var article = shopService.OrderArticle(1, 500).Result;
                 shopService.SellArticle(article, 10);
 
                 //Article article = Factory.CreateArticle();
